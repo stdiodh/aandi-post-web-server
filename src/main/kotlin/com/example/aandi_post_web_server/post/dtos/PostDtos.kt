@@ -20,9 +20,9 @@ data class PostRequestDTO (
     val name: String
         get() = _name!!
     val title: String
-        get() = _title
+        get() = _title!!
     val content: String
-        get() = _content
+        get() = _content!!
 
     fun toEntity(): Post {
         return Post(
