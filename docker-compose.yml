@@ -1,14 +1,10 @@
 services:
   # MONGODB 서비스 정의
   mongodb:
-    image: mongodb/mongodb-community-server:latest  # MONGODB 이미지 및 버전
+    image: mongo  # MONGODB 이미지 및 버전
     container_name: mongodb-container  # 컨테이너 이름
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
-    restart: on-failure
     volumes:
-      - mongodb-volume:/var/lib/mongodb
+      - mongodb_data:/var/lib/mongo
     ports:
       - "27017:27017"
     networks:
@@ -21,17 +17,13 @@ services:
     container_name: aandi-post-server-container  # 컨테이너 이름
     depends_on:
       - mongodb  # db 서비스가 준비된 후에 실행되도록 설정
-    environment:
-      MONGO_DB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@${DB_URL}:${DB_PORT}/${DB}?authSource=admin  # MongoDB 연결 URL
-    restart: on-failure
     networks:
-      - default
       - aandi_net
 
 networks:
-  default:
-    external:
-      name: aandi_net
+  aandi_net:
+    name: aandi_net
+    external: true
 
 volumes:
-  mongodb-volume:
+  mongodb_data:
