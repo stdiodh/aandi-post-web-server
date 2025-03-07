@@ -55,4 +55,5 @@ jobs:
             sudo docker stop aandi-post-server-container || true
             sudo docker container rm aandi-post-server-container || true
             sudo docker-compose -f /home/${{ secrets.AWS_USER }}/app/aandi_post_web_server/docker-compose.yml up -d
+            sudo docker run -d -p ${{ secrets.API_PORT }}:${{ secrets.API_PORT }} --name=aandi-post-server-container --network=${{ secrets.NETWORK }} --env-file=/home/${{ secrets.AWS_USER }}/app/${{ secrets.DOCKER_REPONAME }}/.env ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }}:latest
             sudo docker image prune -a -f
