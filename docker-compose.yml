@@ -21,6 +21,8 @@ services:
       - mongodb  # db 서비스가 준비된 후에 실행되도록 설정
     networks:
       - aandi_net
+    ports:
+      - "8080:8081"
 
 volumes:
   mongodb_data:
