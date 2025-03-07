@@ -2,11 +2,9 @@ services:
   # MONGODB 서비스 정의
   mongodb:
     image: mongo  # MONGODB 이미지 및 버전
-    container_name: mongodb-container  # 컨테이너 이름
+    container_name: aandi-mongodb-container  # 컨테이너 이름
     volumes:
       - mongodb_data:/var/lib/mongo
-    ports:
-      - "27017:27017"
     networks:
       - aandi_net
 
@@ -15,15 +13,21 @@ services:
   app:
     image: ${IMAGE_NAME}  # 빌드된 Spring Boot Docker 이미지
     container_name: aandi-post-server-container  # 컨테이너 이름
+    environment:
+      MONGO_USERNAME: ${DB_USERNAME}
+      MONGO_PASSWORD: ${DB_PASSWORD}
+      MONGO_DB_NAME: ${DB_NAME}
+      MONGO_PORT: ${DB_PORT}
+      MONGO_DB_URL: ${DB_URL}
     depends_on:
       - mongodb  # db 서비스가 준비된 후에 실행되도록 설정
     networks:
       - aandi_net
 
+volumes:
+  mongodb_data:
+
 networks:
   aandi_net:
     name: aandi_net
     external: true
-
-volumes:
-  mongodb_data:
