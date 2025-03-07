@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: AandI_Post_Web_Server
+  config:
+    import: optional:file:.env[.properties]
+
+  data:
+    mongodb:
+      uri: ${MONGO_DB_URL}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
