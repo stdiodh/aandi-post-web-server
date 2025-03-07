@@ -15,8 +15,11 @@ services:
     container_name: aandi-post-server-container  # 컨테이너 이름
     environment:
       MONGO_DB_NAME: ${DB_NAME}
-      MONGO_PORT: ${DB_PORT}
       MONGO_DB_URL: ${DB_URL}
+      MONGO_PORT: ${DB_PORT}
+      MONGO_USER: ${DB_USER}
+      MONGO_PASSWORD: ${DB_PASSWORD}
+
     depends_on:
       - mongodb  # db 서비스가 준비된 후에 실행되도록 설정
     networks:
