@@ -40,8 +40,10 @@ class PostController(
 
     @Operation(summary = "전체조회", description = "전체의 공지를 가져오는 API입니다.")
     @GetMapping
-    private suspend fun getAllPost() : Flux<BaseResponse<Post>> {
-        return postService.getAllPost()
-            .map { post -> BaseResponse(data = post) }
+    private suspend fun getAllPost() : BaseResponse<Flux<Post>> {
+        val result = postService.getAllPost()
+        return BaseResponse<Flux<Post>>(
+            data = result
+        )
     }
 }

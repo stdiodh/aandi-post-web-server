@@ -6,9 +6,9 @@ spring:
 
   data:
     mongodb:
-      database: ${MONGO_DB_NAME}
-      port: ${MONGO_PORT}
-      uri: ${MONGO_DB_URL}
+      host: mongodb-container
+      database: aandi
+      port: 27017
 
 springdoc:
   swagger-ui:
