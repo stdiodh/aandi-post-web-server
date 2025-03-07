@@ -1,13 +1,11 @@
 spring:
   application:
-    name: AandI_Post_Web_Server
+    name: aandi_post_web_server
   config:
     import: optional:file:.env[.properties]
 
   data:
     mongodb:
-      username: ${MONGO_USERNAME}
-      password: ${MONGO_PASSWORD}
       database: ${MONGO_DB_NAME}
       port: ${MONGO_PORT}
       uri: ${MONGO_DB_URL}

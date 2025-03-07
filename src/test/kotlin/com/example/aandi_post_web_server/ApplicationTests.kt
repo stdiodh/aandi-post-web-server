@@ -1,4 +1,4 @@
-package com.example.A.I_Post_Web_Server
+package com.example.aandi_post_web_server
 
 import org.springframework.boot.test.context.SpringBootTest
 

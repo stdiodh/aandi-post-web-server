@@ -14,8 +14,6 @@ services:
     image: ${IMAGE_NAME}  # 빌드된 Spring Boot Docker 이미지
     container_name: aandi-post-server-container  # 컨테이너 이름
     environment:
-      MONGO_USERNAME: ${DB_USERNAME}
-      MONGO_PASSWORD: ${DB_PASSWORD}
       MONGO_DB_NAME: ${DB_NAME}
       MONGO_PORT: ${DB_PORT}
       MONGO_DB_URL: ${DB_URL}
