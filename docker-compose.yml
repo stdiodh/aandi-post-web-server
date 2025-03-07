@@ -8,9 +8,10 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
     restart: on-failure
     volumes:
-      - mongodb-volume:/data/db # 데이터를 저장할 볼륨 정의
+      - mongodb-volume:/var/lib/mongodb
+    ports:
+      - "27017:27017"
     networks:
-      - default
       - aandi_net
 
 
