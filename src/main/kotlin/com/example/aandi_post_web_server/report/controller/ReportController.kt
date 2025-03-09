@@ -53,7 +53,7 @@ class ReportController(
         }
     }
 
-        @Operation(summary = "리포트 삭제", description = "리포트 ID를 통해 해당 레포트를 삭제합니다.")
+    @Operation(summary = "리포트 삭제", description = "리포트 ID를 통해 해당 레포트를 삭제합니다.")
     @DeleteMapping("/{id}")
     private suspend fun deleteReport(
         @Parameter(description = "레포트 ID") @PathVariable id: String
