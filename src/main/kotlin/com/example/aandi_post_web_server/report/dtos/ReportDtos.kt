@@ -1,10 +1,10 @@
 package com.example.aandi_post_web_server.report.dtos
 
+import com.example.aandi_post_web_server.common.annotation.ValidEnum
 import com.example.aandi_post_web_server.report.entity.ExampleIO
 import com.example.aandi_post_web_server.report.entity.Report
 import com.example.aandi_post_web_server.report.entity.SeqString
 import com.example.aandi_post_web_server.report.enum.ReportType
-import com.example.solo_play_web_server.common.annotation.ValidEnum
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotEmpty
 

@@ -1,4 +1,4 @@
-package com.example.solo_play_web_server.common.annotation
+package com.example.aandi_post_web_server.common.annotation
 
 import jakarta.validation.Constraint
 import jakarta.validation.ConstraintValidator

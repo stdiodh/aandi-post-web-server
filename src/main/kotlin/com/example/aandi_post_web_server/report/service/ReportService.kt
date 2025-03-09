@@ -50,7 +50,11 @@ class ReportService(
     }
 
     //Id로 하나의 게시글을 삭제하는 메소드
-    suspend fun deleteReport(id: String): Mono<Void>{
+    suspend fun deleteReport(id: String): Mono<String> {
         return reportRepository.deleteById(id)
+            .flatMap {
+                Mono.just("삭제되었습니다")
+            }
+            .switchIfEmpty(Mono.error(ResponseStatusException(HttpStatus.NOT_FOUND, "리포트를 찾을 수 없습니다: $id")))
     }
 }
