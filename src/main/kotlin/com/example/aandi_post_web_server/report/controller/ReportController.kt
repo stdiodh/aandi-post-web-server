@@ -35,9 +35,10 @@ class ReportController(
 
     @Operation(summary = "전체 조회", description = "전체의 공지를 가져오는 API입니다.")
     @GetMapping
-    private suspend fun getAllReport(): BaseResponse<Flux<Report>> {
-        val result: Flux<Report> = reportService.getAllReport()
-        return BaseResponse(data = result)
+    private suspend fun getAllReport(): Mono<BaseResponse<List<Report>>> {
+        return reportService.getAllReport()
+            .collectList()
+            .map { reports -> BaseResponse(data = reports) }
     }
 
     @Operation(summary = "리포트 수정", description = "리포트 ID를 통해 해당 리포트를 수정합니다.")
