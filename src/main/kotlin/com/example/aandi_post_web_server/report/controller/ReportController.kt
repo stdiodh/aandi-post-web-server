@@ -4,7 +4,6 @@ import com.example.aandi_post_web_server.common.dtos.BaseResponse
 import com.example.aandi_post_web_server.report.dtos.ReportRequestDTO
 import com.example.aandi_post_web_server.report.entity.Report
 import com.example.aandi_post_web_server.report.service.ReportService
-import com.fasterxml.jackson.databind.ser.Serializers.Base
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -36,9 +35,9 @@ class ReportController(
 
     @Operation(summary = "전체 조회", description = "전체의 공지를 가져오는 API입니다.")
     @GetMapping
-    private suspend fun getAllReport() : Flux<BaseResponse<Report>> {
-        val result = reportService.getAllReport()
-        return result.map { report -> BaseResponse(data = report) }
+    private suspend fun getAllReport(): BaseResponse<Flux<Report>> {
+        val result: Flux<Report> = reportService.getAllReport()
+        return BaseResponse(data = result)
     }
 
     @Operation(summary = "리포트 수정", description = "리포트 ID를 통해 해당 리포트를 수정합니다.")
