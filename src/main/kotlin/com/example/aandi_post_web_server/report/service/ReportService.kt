@@ -1,5 +1,6 @@
 package com.example.aandi_post_web_server.report.service
 
+import com.example.aandi_post_web_server.report.dtos.ReportDetailDTO
 import com.example.aandi_post_web_server.report.dtos.ReportRequestDTO
 import com.example.aandi_post_web_server.report.dtos.ReportSummaryDTO
 import com.example.aandi_post_web_server.report.entity.Report
@@ -32,11 +33,15 @@ class ReportService(
             objects = reportRequestDTO.objects,
             exampleIO = reportRequestDTO.exampleIO,
             reportType = reportRequestDTO.reportType,
-            availableAt = reportRequestDTO.availableAt.toInstant(),
-            expirationAt = reportRequestDTO.expirationAt.toInstant(),
+            startAt = reportRequestDTO.startAt.toInstant(),
+            endAt = reportRequestDTO.endAt.toInstant(),
             level = reportRequestDTO.level
         )
         return reportRepository.save(report)
+    }
+
+    suspend fun getAllReport(): Flux<Report>{
+        return reportRepository.findAll()
     }
 
     // 특정 ID의 Report 조회 (공개 시간이 지나야 조회 가능)
@@ -45,33 +50,14 @@ class ReportService(
 
         return reportRepository.findById(id)
             .flatMap { report ->
-                if (report.availableAt.isAfter(now)) {
-                    Mono.error(ResponseStatusException(HttpStatus.FORBIDDEN, "이 리포트는 ${report.availableAt} 이후에 조회 가능합니다."))
-                } else if (report.expirationAt.isBefore(now)) {
+                if (report.startAt.isAfter(now)) {
+                    Mono.error(ResponseStatusException(HttpStatus.FORBIDDEN, "이 리포트는 ${report.startAt} 이후에 조회 가능합니다."))
+                } else if (report.endAt.isBefore(now)) {
                     Mono.error(ResponseStatusException(HttpStatus.FORBIDDEN, "이 리포트는 종료된 상태입니다."))
                 } else {
                     Mono.just(report)
                 }
             }
-    }
-
-    // 설정한 시간에 공개된 Report만 조회
-    suspend fun getAvailableReports(): Flux<Report> {
-        val now = getSeoulTimePlus9Hours()
-        return reportRepository.findAll()
-            .filter { it.availableAt.isBefore(now) && it.expirationAt.isAfter(now) }
-    }
-
-    // 종료된 시간이 지난 Report만 조회
-    suspend fun getExpiredReports(): Flux<Report> {
-        val now = getSeoulTimePlus9Hours()
-        return reportRepository.findAll()
-            .filter { it.expirationAt.isBefore(now) }
-    }
-
-    // 모든 Report 조회 (시간 제한 없이)
-    suspend fun getAllReports(): Flux<Report> {
-        return reportRepository.findAll()
     }
 
     // Report 업데이트
@@ -89,8 +75,8 @@ class ReportService(
                     objects = reportRequestDTO.objects,
                     exampleIO = reportRequestDTO.exampleIO,
                     reportType = reportRequestDTO.reportType,
-                    availableAt = reportRequestDTO.availableAt.toInstant(),
-                    expirationAt = reportRequestDTO.expirationAt.toInstant(),
+                    startAt = reportRequestDTO.startAt.toInstant(),
+                    endAt = reportRequestDTO.endAt.toInstant(),
                     level = reportRequestDTO.level
                 )
                 reportRepository.save(updatedReport)
@@ -106,14 +92,39 @@ class ReportService(
             }
     }
 
-    // 전체 Report에서 필요한 필드(id, week, title, level)만 가져오기
-    suspend fun getAllReportSummaries(): Flux<ReportSummaryDTO> {
+    // 진행 중인 리포트들의 요약 정보만 조회
+    suspend fun getAllOngoingReportSummaries(): Flux<ReportSummaryDTO> {
+        val now = Instant.now().atZone(ZoneId.of("Asia/Seoul")).plusHours(9).toInstant()
+
         return reportRepository.findAll()
+            .filter { it.startAt.isBefore(now) && it.endAt.isAfter(now) }
             .map { report ->
                 ReportSummaryDTO(
                     id = report.id ?: "",
+                    seq = report.seq,
                     week = report.week,
                     title = report.title,
+                    level = report.level,
+                    reportType = report.reportType
+                )
+            }
+    }
+
+    // 특정 ID의 Report 조회 (ReportDetailDTO 반환)
+    suspend fun getReportDetailById(id: String): Mono<ReportDetailDTO> {
+        return reportRepository.findById(id)
+            .switchIfEmpty(Mono.error(ResponseStatusException(HttpStatus.NOT_FOUND, "리포트를 찾을 수 없습니다: $id")))
+            .map { report ->
+                ReportDetailDTO(
+                    id = report.id ?: "",
+                    week = report.week,
+                    title = report.title,
+                    content = report.content,
+                    requirement = report.requirement,
+                    objects = report.objects,
+                    exampleIo = report.exampleIO,
+                    reportType = report.reportType,
+                    endAt = report.endAt.atZone(ZoneId.of("Asia/Seoul")),
                     level = report.level
                 )
             }

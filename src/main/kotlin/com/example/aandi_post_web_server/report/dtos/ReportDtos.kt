@@ -36,13 +36,13 @@ data class ReportRequestDTO(
     @JsonProperty("reportType")
     private val _reportType: String,
 
-    @JsonProperty("availableAt")
+    @JsonProperty("startAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private val _availableAt: LocalDateTime,
+    private val _startAt: LocalDateTime,
 
-    @JsonProperty("expirationAt")
+    @JsonProperty("endAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private val _expirationAt: LocalDateTime,
+    private val _endAt: LocalDateTime,
 
     @JsonProperty("level")
     private val _level: String
@@ -64,11 +64,11 @@ data class ReportRequestDTO(
     val reportType: ReportType
         get() = ReportType.valueOf(_reportType)
 
-    val availableAt: ZonedDateTime
-        get() = _availableAt.atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
+    val startAt: ZonedDateTime
+        get() = _startAt.atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
 
-    val expirationAt: ZonedDateTime
-        get() = _expirationAt.atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
+    val endAt: ZonedDateTime
+        get() = _endAt.atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
 
     val level: Level
         get() = Level.valueOf(_level)
@@ -84,8 +84,8 @@ data class ReportRequestDTO(
             objects = objects,
             exampleIO = exampleIO,
             reportType = reportType,
-            availableAt = availableAt.toInstant(),
-            expirationAt = expirationAt.toInstant(),
+            startAt = startAt.toInstant(),
+            endAt = endAt.toInstant(),
             level = level
         )
     }
@@ -94,6 +94,22 @@ data class ReportRequestDTO(
 data class ReportSummaryDTO(
     val id: String,
     val week: Int,
+    val seq: Int,
     val title: String,
+    val level: Level,
+    val reportType: ReportType
+)
+
+data class ReportDetailDTO(
+    val id: String,
+    val week: Int,
+    val title: String,
+    val content: String,
+    val requirement: List<SeqString>,
+    val objects: List<SeqString>,
+    val exampleIo: List<ExampleIO>,
+    val reportType: ReportType,
+    val endAt: ZonedDateTime,
     val level: Level
 )
+

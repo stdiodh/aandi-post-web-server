@@ -19,19 +19,13 @@ data class Report(
     val objects: List<SeqString>,
     val exampleIO: List<ExampleIO>,
     val reportType: ReportType,
-    val availableAt: Instant,
-    val expirationAt : Instant,
+    val startAt: Instant,
+    val endAt : Instant,
     val level: Level
 ) {
     val isAvailable: Boolean
-        get() = Instant.now()
-            .atZone(ZoneId.of("Asia/Seoul"))
-            .plusHours(9)
-            .isAfter(availableAt.atZone(ZoneId.of("Asia/Seoul")))
-
-    val isExpired: Boolean
-        get() = Instant.now()
-            .atZone(ZoneId.of("Asia/Seoul"))
-            .plusHours(9)
-            .isAfter(expirationAt.atZone(ZoneId.of("Asia/Seoul")))
+        get() {
+            val now = Instant.now().atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
+            return now.isAfter(startAt.atZone(ZoneId.of("Asia/Seoul"))) && now.isBefore(endAt.atZone(ZoneId.of("Asia/Seoul")))
+        }
 }
