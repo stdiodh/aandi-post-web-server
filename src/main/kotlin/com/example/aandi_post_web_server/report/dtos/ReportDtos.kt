@@ -97,7 +97,8 @@ data class ReportSummaryDTO(
     val seq: Int,
     val title: String,
     val level: Level,
-    val reportType: ReportType
+    val reportType: ReportType,
+    val endAt: ZonedDateTime
 )
 
 data class ReportDetailDTO(

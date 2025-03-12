@@ -105,7 +105,8 @@ class ReportService(
                     week = report.week,
                     title = report.title,
                     level = report.level,
-                    reportType = report.reportType
+                    reportType = report.reportType,
+                    endAt = report.endAt.atZone(ZoneId.of("UTC"))
                 )
             }
     }
@@ -124,7 +125,7 @@ class ReportService(
                     objects = report.objects,
                     exampleIo = report.exampleIO,
                     reportType = report.reportType,
-                    endAt = report.endAt.atZone(ZoneId.of("Asia/Seoul")),
+                    endAt = report.endAt.atZone(ZoneId.of("UTC")),
                     level = report.level
                 )
             }
