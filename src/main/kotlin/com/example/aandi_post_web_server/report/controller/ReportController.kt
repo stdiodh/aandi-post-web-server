@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import kotlinx.coroutines.reactive.awaitFirst
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
@@ -34,8 +36,9 @@ class ReportController(
 
     @Operation(summary = "ID를 통한 상세 조회", description = "ID를 통해 리포트를 상세조회하는 API입니다.")
     @GetMapping("/{id}")
-    suspend fun getReportDetail(@PathVariable id: String): Mono<ReportDetailDTO> {
-        return reportService.getReportDetailById(id)
+    suspend fun getReportDetail(@PathVariable id: String): ResponseEntity<ReportDetailDTO> {
+        val report = reportService.getReportDetailById(id).awaitFirst()
+        return ResponseEntity.ok(report)
     }
 
     @Operation(summary = "리포트 수정", description = "리포트 ID를 통해 해당 리포트를 수정합니다.")
