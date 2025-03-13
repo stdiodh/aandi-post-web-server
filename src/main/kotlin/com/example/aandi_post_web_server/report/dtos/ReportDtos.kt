@@ -37,11 +37,11 @@ data class ReportRequestDTO(
     private val _reportType: String,
 
     @JsonProperty("startAt")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
     private val _startAt: LocalDateTime,
 
     @JsonProperty("endAt")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
     private val _endAt: LocalDateTime,
 
     @JsonProperty("level")
@@ -65,10 +65,10 @@ data class ReportRequestDTO(
         get() = ReportType.valueOf(_reportType)
 
     val startAt: ZonedDateTime
-        get() = _startAt.atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
+        get() = _startAt.atZone(ZoneId.of("UTC"))
 
     val endAt: ZonedDateTime
-        get() = _endAt.atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
+        get() = _endAt.atZone(ZoneId.of("UTC"))
 
     val level: Level
         get() = Level.valueOf(_level)

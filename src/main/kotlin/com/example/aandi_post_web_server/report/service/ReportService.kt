@@ -17,12 +17,6 @@ import java.time.ZoneId
 class ReportService(
     private val reportRepository: ReportRepository,
 ) {
-    private fun getSeoulTimePlus9Hours(): Instant {
-        val now = Instant.now()
-        val seoulTime = now.atZone(ZoneId.of("Asia/Seoul"))
-        return seoulTime.plusHours(9).toInstant()
-    }
-
     suspend fun createReport(reportRequestDTO: ReportRequestDTO): Mono<Report> {
         val report = Report(
             week = reportRequestDTO.week,
@@ -42,22 +36,6 @@ class ReportService(
 
     suspend fun getAllReport(): Flux<Report>{
         return reportRepository.findAll()
-    }
-
-    // 특정 ID의 Report 조회 (공개 시간이 지나야 조회 가능)
-    suspend fun getOneReport(id: String): Mono<Report> {
-        val now = getSeoulTimePlus9Hours()
-
-        return reportRepository.findById(id)
-            .flatMap { report ->
-                if (report.startAt.isAfter(now)) {
-                    Mono.error(ResponseStatusException(HttpStatus.FORBIDDEN, "이 리포트는 ${report.startAt} 이후에 조회 가능합니다."))
-                } else if (report.endAt.isBefore(now)) {
-                    Mono.error(ResponseStatusException(HttpStatus.FORBIDDEN, "이 리포트는 종료된 상태입니다."))
-                } else {
-                    Mono.just(report)
-                }
-            }
     }
 
     // Report 업데이트
@@ -94,7 +72,7 @@ class ReportService(
 
     // 진행 중인 리포트들의 요약 정보만 조회
     suspend fun getAllOngoingReportSummaries(): Flux<ReportSummaryDTO> {
-        val now = Instant.now().atZone(ZoneId.of("Asia/Seoul")).plusHours(9).toInstant()
+        val now = Instant.now().atZone(ZoneId.of("UTC")).plusHours(9).toInstant()
 
         return reportRepository.findAll()
             .filter { it.startAt.isBefore(now) && it.endAt.isAfter(now) }

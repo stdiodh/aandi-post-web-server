@@ -25,7 +25,7 @@ data class Report(
 ) {
     val isAvailable: Boolean
         get() {
-            val now = Instant.now().atZone(ZoneId.of("Asia/Seoul")).plusHours(9)
-            return now.isAfter(startAt.atZone(ZoneId.of("Asia/Seoul"))) && now.isBefore(endAt.atZone(ZoneId.of("Asia/Seoul")))
+            val now = Instant.now().atZone(ZoneId.of("UTC"))
+            return now.isAfter(startAt.atZone(ZoneId.of("UTC"))) && now.isBefore(endAt.atZone(ZoneId.of("UTC")))
         }
 }
