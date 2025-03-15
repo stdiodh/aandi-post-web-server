@@ -27,8 +27,6 @@ services:
   nginx:
     image: nginx:latest
     container_name: aandi-nginx
-    depends_on:
-      - app
     ports:
       - "80:80"
       - "443:443"
