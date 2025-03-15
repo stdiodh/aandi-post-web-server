@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # MONGODB 서비스 정의
   mongodb:
@@ -8,7 +10,6 @@ services:
     networks:
       - aandi_net
 
-
   # Spring Boot 서비스 정의
   app:
     image: ${IMAGE_NAME}  # 빌드된 Spring Boot Docker 이미지
@@ -17,13 +18,38 @@ services:
       MONGO_DB_NAME: ${DB_NAME}
       MONGO_DB_URL: ${DB_URL}
       MONGO_PORT: ${DB_PORT}
-
     depends_on:
       - mongodb  # db 서비스가 준비된 후에 실행되도록 설정
     networks:
       - aandi_net
     ports:
       - "8081:8080"
+
+  # Nginx (리버스 프록시 + SSL 지원)
+  nginx:
+    image: nginx:latest
+    container_name: aandi-nginx
+    depends_on:
+      - app  # Spring Boot가 실행된 후 시작
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d  # Nginx 설정 파일 매핑
+      - ./certbot/www:/var/www/certbot  # Certbot 인증 파일 저장
+      - ./certbot/conf:/etc/letsencrypt  # SSL 인증서 저장
+    networks:
+      - aandi_net
+
+  # Certbot (Let's Encrypt SSL 인증서 발급)
+  certbot:
+    image: certbot/certbot
+    container_name: aandi-certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot  # 인증 파일 매핑
+      - ./certbot/conf:/etc/letsencrypt  # SSL 인증서 저장
+    depends_on:
+      - nginx  # Nginx 실행 후 Certbot 실행 가능
 
 volumes:
   mongodb_data:
