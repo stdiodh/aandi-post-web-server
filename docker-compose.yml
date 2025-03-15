@@ -29,7 +29,6 @@ services:
     container_name: aandi-nginx
     depends_on:
       - app
-    entrypoint: [ "./wait-for-it.sh", "app:8081", "--", "nginx", "-g", "daemon off;" ]
     ports:
       - "80:80"
       - "443:443"
