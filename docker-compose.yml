@@ -28,14 +28,15 @@ services:
     image: nginx:latest
     container_name: aandi-nginx
     depends_on:
-      - app  # Spring Boot가 실행된 후 시작
+      - app
+    entrypoint: [ "./wait-for-it.sh", "app:8081", "--", "nginx", "-g", "daemon off;" ]
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d  # Nginx 설정 파일 매핑
-      - ./certbot/www:/var/www/certbot  # Certbot 인증 파일 저장
-      - ./certbot/conf:/etc/letsencrypt  # SSL 인증서 저장
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
     networks:
       - aandi_net
 
