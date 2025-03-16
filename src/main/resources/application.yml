@@ -12,4 +12,12 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui/index.html
+    urls-primary-name: default
+    disable-swagger-default-url: true
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+server:
+  forward-headers-strategy: framework
