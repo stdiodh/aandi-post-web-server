@@ -16,13 +16,11 @@ class ReportRepositoryTest @Autowired constructor(
     private val reportRepository: ReportRepository
 ) : StringSpec({
 
-    // 테스트 실행 전 데이터 삭제
     beforeTest {
-        reportRepository.deleteAll().block()
+        StepVerifier.create(reportRepository.deleteAll()).verifyComplete()
     }
 
     "Report 저장이 형식에 맞게 된다면 성공한다." {
-        // given
         val report = Report(
             week = 1,
             seq = 100,
@@ -37,11 +35,7 @@ class ReportRepositoryTest @Autowired constructor(
             level = Level.MEDIUM
         )
 
-        // when
-        val savedReport = reportRepository.save(report)
-
-        // then - StepVerifier 활용
-        StepVerifier.create(savedReport)
+        StepVerifier.create(reportRepository.save(report))
             .assertNext {
                 it.title shouldBe "Test Report"
                 it.content shouldBe "This is a test report"
@@ -54,7 +48,6 @@ class ReportRepositoryTest @Autowired constructor(
     }
 
     "레포트가 종료되면 isAvailable 값이 false가 된다." {
-        // given - 현재 시간보다 과거에 종료된 Report
         val expiredReport = Report(
             week = 2,
             seq = 200,
@@ -69,15 +62,12 @@ class ReportRepositoryTest @Autowired constructor(
             level = Level.LOW
         )
 
-        // when - 저장 후 조회
-        val savedReport = reportRepository.save(expiredReport)
-
-        // then - StepVerifier 활용
-        StepVerifier.create(savedReport)
+        StepVerifier.create(reportRepository.save(expiredReport))
             .assertNext {
-                it.isAvailable shouldBe false // 종료된 report는 isAvailable이 false
+                it.isAvailable shouldBe false
             }
             .verifyComplete()
     }
 
 })
+
