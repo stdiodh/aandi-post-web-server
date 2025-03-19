@@ -1,6 +1,5 @@
 package com.example.aandi_post_web_server.report.repository
 
-import com.example.aandi_post_web_server.common.config.TestMongoConfig
 import com.example.aandi_post_web_server.report.entity.*
 import com.example.aandi_post_web_server.report.enum.Level
 import com.example.aandi_post_web_server.report.enum.ReportType
@@ -8,13 +7,11 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
-import org.springframework.context.annotation.Import
 import reactor.test.StepVerifier
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
 @DataMongoTest
-@Import(TestMongoConfig::class)
 class ReportRepositoryTest @Autowired constructor(
     private val reportRepository: ReportRepository
 ) : StringSpec({
