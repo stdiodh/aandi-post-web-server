@@ -7,6 +7,8 @@ services:
       - mongodb_data:/var/lib/mongo
     networks:
       - aandi_net
+    ports:
+      - ${MONGO_DB_PORTS}
 
   # Spring Boot 서비스 정의
   app:
