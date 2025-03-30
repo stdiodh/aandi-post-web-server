@@ -72,7 +72,7 @@ class ReportService(
 
     // 진행 중인 리포트들의 요약 정보만 조회
     suspend fun getAllOngoingReportSummaries(): Flux<ReportSummaryDTO> {
-        val now = Instant.now().atZone(ZoneId.of("UTC")).plusHours(9).toInstant()
+        val now = Instant.now().atZone(ZoneId.of("UTC")).toInstant()
 
         return reportRepository.findAll()
             .filter { it.startAt.isBefore(now) && it.endAt.isAfter(now) }
@@ -84,7 +84,7 @@ class ReportService(
                     title = report.title,
                     level = report.level,
                     reportType = report.reportType,
-                    endAt = report.endAt.atZone(ZoneId.of("UTC"))
+                    endAt = report.endAt
                 )
             }
     }
@@ -103,7 +103,7 @@ class ReportService(
                     objects = report.objects,
                     exampleIo = report.exampleIO,
                     reportType = report.reportType,
-                    endAt = report.endAt.atZone(ZoneId.of("UTC")),
+                    endAt = report.endAt,
                     level = report.level
                 )
             }

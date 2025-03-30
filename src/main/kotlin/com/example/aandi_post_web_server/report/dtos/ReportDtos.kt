@@ -1,12 +1,12 @@
 package com.example.aandi_post_web_server.report.dtos
 
 import com.example.aandi_post_web_server.report.entity.ExampleIO
-import com.example.aandi_post_web_server.report.entity.Report
 import com.example.aandi_post_web_server.report.entity.SeqString
 import com.example.aandi_post_web_server.report.enum.Level
 import com.example.aandi_post_web_server.report.enum.ReportType
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -72,23 +72,6 @@ data class ReportRequestDTO(
 
     val level: Level
         get() = Level.valueOf(_level)
-
-    fun toEntity(): Report {
-        return Report(
-            id = null,
-            week = week,
-            seq = seq,
-            title = title,
-            content = content,
-            requirement = requirement,
-            objects = objects,
-            exampleIO = exampleIO,
-            reportType = reportType,
-            startAt = startAt.toInstant(),
-            endAt = endAt.toInstant(),
-            level = level
-        )
-    }
 }
 
 data class ReportSummaryDTO(
@@ -98,7 +81,7 @@ data class ReportSummaryDTO(
     val title: String,
     val level: Level,
     val reportType: ReportType,
-    val endAt: ZonedDateTime
+    val endAt: Instant
 )
 
 data class ReportDetailDTO(
@@ -110,7 +93,7 @@ data class ReportDetailDTO(
     val objects: List<SeqString>,
     val exampleIo: List<ExampleIO>,
     val reportType: ReportType,
-    val endAt: ZonedDateTime,
+    val endAt: Instant,
     val level: Level
 )
 
