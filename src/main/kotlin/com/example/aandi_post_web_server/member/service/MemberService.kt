@@ -5,8 +5,11 @@ import com.example.aandi_post_web_server.member.dtos.*
 import com.example.aandi_post_web_server.member.entity.Member
 import com.example.aandi_post_web_server.member.enum.MemberRole
 import com.example.aandi_post_web_server.member.repository.MemberRepository
+import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
@@ -88,4 +91,22 @@ class MemberService (
             }
     }
 
+    fun getAllMembers(): Flux<MemberResponse> {
+        return memberRepository.findAll()
+            .map { member ->
+                MemberResponse(
+                    userId = member.userId,
+                    nickname = member.nickName,
+                    role = member.role
+                )
+            }
+    }
+
+    fun deleteMemberByUserId(userId: String): Mono<String> {
+        return memberRepository.findByUserId(userId)
+            .switchIfEmpty(Mono.error(ResponseStatusException(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다: $userId")))
+            .flatMap { member ->
+                memberRepository.delete(member).thenReturn("아이디 삭제 완료: $userId")
+            }
+    }
 }

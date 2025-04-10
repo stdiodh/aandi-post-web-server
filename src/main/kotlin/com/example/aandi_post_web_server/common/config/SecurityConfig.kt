@@ -36,8 +36,8 @@ class SecurityConfig(
                     "/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
-                    "/api/member/**",
-                    "/webjars/**"
+                    "/webjars/**",
+                    "/api/member/login"
                 ).permitAll()
 
                 // 관리자만 가능
@@ -45,6 +45,9 @@ class SecurityConfig(
                 it.pathMatchers(HttpMethod.PUT, "/api/report/{id}").hasRole("ADMIN")
                 it.pathMatchers(HttpMethod.DELETE, "/api/report/{id}").hasRole("ADMIN")
 
+                it.pathMatchers(HttpMethod.POST, "/api/member/register/member").hasRole("ADMIN")
+                it.pathMatchers(HttpMethod.GET, "/api/member").hasRole("ADMIN")
+                it.pathMatchers(HttpMethod.DELETE, "/api/member/{userId}").hasRole("ADMIN")
                 // 나머지 report는 인증만 필요
                 it.pathMatchers("/api/report/**").authenticated()
 
@@ -59,7 +62,10 @@ class SecurityConfig(
         val filter = AuthenticationWebFilter(jwtAuthenticationManager())
         filter.setServerAuthenticationConverter(bearerConverter())
         filter.setSecurityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-        filter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/api/report/**"))
+        filter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/api/report/**",
+            "/api/member/register/member",
+            "/api/member",
+            "/api/member/{userId}"))
         return filter
     }
 
