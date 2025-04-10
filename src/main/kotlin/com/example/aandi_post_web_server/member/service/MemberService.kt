@@ -82,9 +82,10 @@ class MemberService (
                 if (!passwordEncoder.matches(request.password, user.password)) {
                     Mono.error(IllegalArgumentException("비밀번호가 일치하지 않습니다"))
                 } else {
-                    val token = jwtTokenProvider.generateToken(user.userId)
+                    val token = jwtTokenProvider.generateToken(user.userId, user.role)
                     Mono.just(TokenResponse(token))
                 }
             }
     }
+
 }
