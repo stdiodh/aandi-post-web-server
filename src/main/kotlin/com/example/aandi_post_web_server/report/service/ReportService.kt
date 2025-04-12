@@ -70,20 +70,23 @@ class ReportService(
             }
     }
 
-    // 모든 리포트들의 요약 정보만 조회
+    // 진행 중인 리포트들의 요약 정보만 조회
     suspend fun getAllOngoingReportSummaries(): Flux<ReportSummaryDTO> {
-        return reportRepository.findAll().map {
-            report ->
-            ReportSummaryDTO(
-                id = report.id ?: "",
-                week = report.week,
-                seq = report.seq,
-                title = report.title,
-                level = report.level,
-                reportType = report.reportType,
-                endAt = report.endAt
-            )
-        }
+        val now = Instant.now().atZone(ZoneId.of("UTC")).toInstant()
+
+        return reportRepository.findAll()
+            .filter { it.startAt.isBefore(now) }
+            .map { report ->
+                ReportSummaryDTO(
+                    id = report.id ?: "",
+                    seq = report.seq,
+                    week = report.week,
+                    title = report.title,
+                    level = report.level,
+                    reportType = report.reportType,
+                    endAt = report.endAt
+                )
+            }
     }
 
     // 특정 ID의 Report 조회 (ReportDetailDTO 반환)
