@@ -1,4 +1,3 @@
-#Compose Reset
 services:
   # MONGODB 서비스 정의
   mongodb:
