@@ -1,6 +1,6 @@
 services:
   # MONGODB 서비스 정의
-  mongodb:
+  mongodb-test:
     image: mongo  # MONGODB 이미지 및 버전
     container_name: aandi-mongodb-container-test  # 컨테이너 이름
     volumes:
@@ -9,7 +9,7 @@ services:
       - aandi_net
 
   # Spring Boot 서비스 정의
-  app:
+  app-test:
     image: ${IMAGE_NAME}  # 빌드된 Spring Boot Docker 이미지
     container_name: aandi-post-server-container-test  # 컨테이너 이름
     environment:
@@ -24,9 +24,9 @@ services:
       - "8082:8080"
 
   # Nginx (리버스 프록시 + SSL 지원)
-  nginx:
+  nginx-test:
     image: nginx:latest
-    container_name: aandi-nginx
+    container_name: aandi-nginx-test
     ports:
       - "80:80"
       - "443:443"
@@ -39,9 +39,9 @@ services:
       - aandi_net
 
   # Certbot (Let's Encrypt SSL 인증서 발급)
-  certbot:
+  certbot-test:
     image: certbot/certbot
-    container_name: aandi-certbot
+    container_name: aandi-certbot-test
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
