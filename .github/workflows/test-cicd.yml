@@ -2,9 +2,9 @@ name: Test CICD
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "feature/member" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "feature/member" ]
 
 jobs:
   build:
