@@ -52,7 +52,7 @@ jobs:
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }}:latest
-            sudo docker stop aandi-post-server-container
-            sudo docker container rm aandi-post-server-container
+            sudo docker stop aandi-post-server-container-test
+            sudo docker container rm aandi-post-server-container-test
             sudo docker-compose -f /home/${{ secrets.AWS_USER }}/app/test/docker-compose-test.yml up -d
             sudo docker image prune -a -f
