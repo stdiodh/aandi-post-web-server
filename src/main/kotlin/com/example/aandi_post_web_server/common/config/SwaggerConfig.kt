@@ -3,17 +3,27 @@ package com.example.aandi_post_web_server.common.config
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
-import io.swagger.v3.oas.models.servers.Server
+import io.swagger.v3.oas.models.security.SecurityRequirement
+import io.swagger.v3.oas.models.security.SecurityScheme
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SwaggerConfig {
     @Bean
-    fun openApi() : OpenAPI = OpenAPI()
-        .components(Components())
-        .info(swaggerInfo())
-        .addServersItem(Server().url("/"))
+    fun openApi(): OpenAPI {
+        return OpenAPI()
+            .components(
+                Components().addSecuritySchemes(
+                    "bearer-key",
+                    SecurityScheme()
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT")
+                )
+            )
+            .addSecurityItem(SecurityRequirement().addList("bearer-key"))
+    }
 
     private fun swaggerInfo() : Info = Info()
         .title("A&I 3기 과제 공지용 웹서버")
