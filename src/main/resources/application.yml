@@ -6,8 +6,6 @@ spring:
 
   data:
     mongodb:
-      database: ${MONGO_DB_NAME}
-      port: ${MONGO_PORT}
       uri: ${MONGO_DB_URL}
 
 springdoc:
