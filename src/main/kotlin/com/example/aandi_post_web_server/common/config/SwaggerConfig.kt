@@ -28,6 +28,7 @@ class SwaggerConfig (
                 )
             )
             .addSecurityItem(SecurityRequirement().addList("bearer-key"))
+            .info(swaggerInfo())
     }
 
     private fun swaggerInfo() : Info = Info()

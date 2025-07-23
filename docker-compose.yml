@@ -16,6 +16,7 @@ services:
       MONGO_DB_NAME: ${DB_NAME}
       MONGO_DB_URL: ${DB_URL}
       MONGO_PORT: ${DB_PORT}
+      SWAGGER_URL: ${SWAGGER_URL}
     depends_on:
       - mongodb  # db 서비스가 준비된 후에 실행되도록 설정
     networks:
