@@ -48,5 +48,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }}:latest
             sudo docker stop aandi-post-server-container
             sudo docker container rm aandi-post-server-container
-            sudo docker-compose -f /home/${{ secrets.AWS_USER }}/app/test/docker-compose.yml up -d
+            sudo docker-compose -f /home/${{ secrets.AWS_USER }}/app/aandi_post_web_server/docker-compose.yml up -d
             sudo docker image prune -a -f
