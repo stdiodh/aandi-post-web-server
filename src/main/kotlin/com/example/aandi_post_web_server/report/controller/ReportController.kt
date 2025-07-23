@@ -28,7 +28,7 @@ class ReportController(
         return reportService.createReport(reportRequestDTO)
     }
 
-    @Operation(summary = "진행종인 리포트 전체 조회", description = "진행중인 공지를 가져오는 API입니다.")
+    @Operation(summary = "진행중인 리포트 전체 조회", description = "진행중인 리포트의 요약을 가져오는 API입니다.")
     @GetMapping
     private suspend fun getAllSummeryReport(): Flux<ReportSummaryDTO> {
         return reportService.getAllOngoingReportSummaries()

@@ -75,7 +75,7 @@ class ReportService(
         val now = Instant.now().atZone(ZoneId.of("UTC")).toInstant()
 
         return reportRepository.findAll()
-            .filter { it.startAt.isBefore(now) && it.endAt.isAfter(now) }
+            .filter { it.startAt.isBefore(now) }
             .map { report ->
                 ReportSummaryDTO(
                     id = report.id ?: "",

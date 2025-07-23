@@ -3,7 +3,7 @@ name: Dev-deploy CICD
 
 on:
   push:
-    branches: [ "feature/member" ]
+    branches: [ "main" ]
 
 jobs:
   build:
