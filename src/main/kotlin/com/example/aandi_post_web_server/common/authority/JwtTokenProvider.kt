@@ -11,7 +11,7 @@ import javax.crypto.SecretKey
 class JwtTokenProvider{
     private val secret = "aandi-super-secret-key-aandi-super-secret-key"
     val secretKey: SecretKey = Keys.hmacShaKeyFor(secret.toByteArray())
-    private val expiration = 1000 * 60 * 60
+    private val expiration = 1000 * 60 * 60 * 30
 
     fun generateToken(userId: String, roles: MemberRole): String {
         val now = Date()
