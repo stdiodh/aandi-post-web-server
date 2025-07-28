@@ -18,6 +18,9 @@ import org.springframework.security.web.server.authentication.AuthenticationWebF
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.reactive.CorsWebFilter
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import reactor.core.publisher.Mono
 
 @Configuration
@@ -28,7 +31,7 @@ class SecurityConfig(
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http
-            .cors { it.disable() }
+            .cors { }
             .csrf { it.disable() }
             .httpBasic { it.disable() }
             .authorizeExchange {
@@ -110,5 +113,20 @@ class SecurityConfig(
             override fun matches(rawPassword: CharSequence, encodedPassword: String): Boolean =
                 rawPassword.toString() == encodedPassword
         }
+    }
+
+    @Bean
+    fun corsWebFilter(): CorsWebFilter {
+        val config = CorsConfiguration().apply {
+            allowedOrigins = listOf("*")
+            allowedMethods = listOf("*")
+            allowedHeaders = listOf("*")
+            allowCredentials = true
+        }
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", config)
+
+        return CorsWebFilter(source)
     }
 }
