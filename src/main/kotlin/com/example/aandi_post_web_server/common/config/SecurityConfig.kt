@@ -35,6 +35,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .httpBasic { it.disable() }
             .authorizeExchange {
+                it.pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 공개 API
                 it.pathMatchers(
                     "/swagger-ui.html",
