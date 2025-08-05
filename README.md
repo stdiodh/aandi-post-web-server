@@ -13,7 +13,7 @@
 
 - 과제를 자동 공개하고,
 - 과제 제출 시스템을 제공하며,
-- 추후 로그인을 기반으로 한 심화 기능을 제공합니다.
+- 로그인을 기반으로 한 심화 기능을 제공합니다.
 
 ## ⏰ 개발 기간
 
@@ -33,10 +33,9 @@
 
 ### 🛠 Back-End
 
-| Kotlin | Spring Boot | MongoDB | AWS EC2 | Docker | GitHub Actions |
-|:--:|:--:|:--:|:--:|:--:|:--:|
-| <img src="https://github.com/user-attachments/assets/80ae7152-6b52-477e-bee7-504e46119af2" width="50"/> | <img src="https://github.com/user-attachments/assets/f0a5c7a5-1ea5-486f-884e-f404e227f9d4" width="50"/> | <img src="https://github.com/user-attachments/assets/b1e27d13-222d-47f0-b25a-98d975283be3" width="50"/> | <img src="https://github.com/user-attachments/assets/1e5aaa79-0a47-4e20-9023-6ebd930d1716" width="50"/> | <img src="https://github.com/user-attachments/assets/8531285b-ac7a-43c5-a856-7dd15bbf1ed5" width="50"/> | <img src="https://simpleicons.org/icons/githubactions.svg" width="50"/> |
-
+| Kotlin | Spring Boot | MongoDB | AWS EC2 | Docker | GitHub Actions | Nignx |
+|:--:|:--:|:--:|:--:|:--:|:--:|:---:|
+| <img src="https://github.com/user-attachments/assets/80ae7152-6b52-477e-bee7-504e46119af2" width="50"/> | <img src="https://github.com/user-attachments/assets/f0a5c7a5-1ea5-486f-884e-f404e227f9d4" width="50"/> | <img src="https://github.com/user-attachments/assets/b1e27d13-222d-47f0-b25a-98d975283be3" width="50"/> | <img src="https://github.com/user-attachments/assets/1e5aaa79-0a47-4e20-9023-6ebd930d1716" width="50"/> | <img src="https://github.com/user-attachments/assets/8531285b-ac7a-43c5-a856-7dd15bbf1ed5" width="50"/> | <img src="https://simpleicons.org/icons/githubactions.svg" width="50"/> | <img src="https://github.com/user-attachments/assets/b09662b0-c4ed-4400-ab03-26e3a4515c12" width="50"/> |
 
 ## 📌 주요 기능
 
@@ -44,15 +43,16 @@
 - 매주 **월요일 오전 9시**, 새로운 과제가 자동 공개됩니다.  
 <img src="https://github.com/user-attachments/assets/df2c1775-4304-4e62-a109-3cf1e638d72c" width="600"/>
 
+### 🔐 로그인 기반 심화 기능
+- 로그인한 사용자만 접근 가능한 프로그래밍 학습 콘텐츠를 제공할 예정입니다.
+<img src="https://github.com/user-attachments/assets/17a957a3-0d77-444c-b43c-8368b58b0db1" width="600"/>
+
 ### 📝 A&I 레포트 제출 (예정)
 - 동아리원이 자신의 과제를 제출할 수 있는 기능입니다.
 
-### 🔐 로그인 기반 심화 기능 (예정)
-- 로그인한 사용자만 접근 가능한 프로그래밍 학습 콘텐츠를 제공할 예정입니다.
-
 ## 🗂️ ERD
 
-<img src="https://github.com/user-attachments/assets/53ebb10d-c39b-45c6-b9cd-667789f0268c" width="700"/>
+<img src="https://github.com/user-attachments/assets/0ac35082-bce5-4b96-8915-35d0312b71d6" width="800"/>
 
 
 ## 📢 기여 방법 (Contribution Guide)
